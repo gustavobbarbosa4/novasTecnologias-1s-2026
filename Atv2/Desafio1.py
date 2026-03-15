@@ -29,11 +29,18 @@ total = 0
 
 for produto in produtos:
     total += (produto["preco"] * produto["quantidade"]) 
-    if produto["preco"] > 500:
+    if produto["preco"] * produto["quantidade"] > 500:
         produtosCaros.append(produto)
         
 emFalta = [produto["nome"] for produto in produtos if produto["quantidade"] == 0 ]
 
-print(total)
-print(f"Produtos acima de 500: {produtosCaros}")
-print(f"Produtos em falta: {emFalta}")
+print(f"Valor total em estoque: ${total:.2f}")
+
+print(f"Produtos acima de 500:")
+for produto in produtosCaros:
+    valor = produto["preco"] * produto["quantidade"] 
+    print(f"- {produto['nome']} | Quantidade: {produto['quantidade']} | Valor: {valor}")
+
+print(f"Produtos em falta:")
+for nome in emFalta:
+    print(f"- {nome}")
