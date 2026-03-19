@@ -37,6 +37,7 @@ emFalta = [produto["nome"] for produto in produtos if produto["quantidade"] == 0
 print(f"\nValor total em estoque: ${total:.2f}")
 
 print(f"\nProdutos acima de 500:")
+
 for produto in produtosCaros:
     valor = produto["preco"] * produto["quantidade"] 
     print(f"- {produto['nome']} | Quantidade: {produto['quantidade']} | Valor: {valor}")
