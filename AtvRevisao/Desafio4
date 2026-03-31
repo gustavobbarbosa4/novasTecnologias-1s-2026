@@ -1,0 +1,87 @@
+# -*- coding: utf-8 -*-
+class JogoDaVelha:
+    def __init__(self):
+        self.tabuleiro = [[" " for _ in range(3)] for _ in range(3)]
+        self.jogador_atual = "X"
+
+    def mostrar_tabuleiro(self):
+        print("\n  0   1   2")
+        for i, linha in enumerate(self.tabuleiro):
+            print(i, " | ".join(linha))
+            if i < 2:
+                print("  -----------")
+        print()
+
+    def _eh_posicao_valida(self, linha, coluna):
+        return 0 <= linha < 3 and 0 <= coluna < 3
+
+    def _posicao_vazia(self, linha, coluna):
+        return self.tabuleiro[linha][coluna] == " "
+
+    def fazer_jogada(self, linha, coluna):
+        if not self._eh_posicao_valida(linha, coluna):
+            print("Posicao invalida. Use valores entre 0 e 2 para linha e coluna.")
+            return False
+
+        if not self._posicao_vazia(linha, coluna):
+            print("Posicao ja ocupada. Escolha outra posicao.")
+            return False
+
+        self.tabuleiro[linha][coluna] = self.jogador_atual
+        return True
+
+    def verificar_vencedor(self):
+        t = self.tabuleiro
+        linhas = [t[i] for i in range(3)]
+        colunas = [[t[r][c] for r in range(3)] for c in range(3)]
+        diagonais = [[t[i][i] for i in range(3)], [t[i][2-i] for i in range(3)]]
+
+        for grupo in linhas + colunas + diagonais:
+            if grupo[0] != " " and grupo[0] == grupo[1] == grupo[2]:
+                return grupo[0]
+
+        return None
+
+    def verificar_empate(self):
+        if any(" " in linha for linha in self.tabuleiro):
+            return False
+        return self.verificar_vencedor() is None
+
+    def trocar_turno(self):
+        self.jogador_atual = "O" if self.jogador_atual == "X" else "X"
+
+    def jogar(self):
+        print("Bem-vindo ao Jogo da Velha!\n")
+        while True:
+            self.mostrar_tabuleiro()
+            print(f"Vez do jogador {self.jogador_atual}")
+            try:
+                entrada = input("Digite linha e coluna separados por espaço (ex: 1 2): ")
+                if entrada.lower() in ("sair", "q", "quit"):  # permitir sair
+                    print("Jogo encerrado pelo jogador.")
+                    break
+                linha, coluna = map(int, entrada.split())
+            except ValueError:
+                print("Entrada invalida. Informe dois numeros separados por espaco.")
+                continue
+
+            if not self.fazer_jogada(linha, coluna):
+                continue
+
+            vencedor = self.verificar_vencedor()
+            if vencedor is not None:
+                self.mostrar_tabuleiro()
+                print(f"Jogador {vencedor} venceu! Parabéns!")
+                break
+
+            if self.verificar_empate():
+                self.mostrar_tabuleiro()
+                print("Empate! Ninguém venceu.")
+                break
+
+            self.trocar_turno()
+
+
+if __name__ == "__main__":
+    jogo = JogoDaVelha()
+    jogo.jogar()
