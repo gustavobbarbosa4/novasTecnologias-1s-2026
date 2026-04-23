@@ -9,18 +9,18 @@ usuarios = [
     {"nome": "Bruna", "email": "bruninha@gmail.com", "status_ativo": True}
 ]
 
-limpar_dados = [usuarios]
-limpos = []
-usuarios_ativos = list(filter(
-    lambda u: u["status_ativo"], usuarios
-))
+def limpar_dados(lista):
+    usuarios_ativos = list(filter(lambda u: u["status_ativo"] == True, lista))
+    limpos = []
+    
+    for usuario in usuarios_ativos:
+        usuario["nome"] = usuario["nome"].upper()
+        usuario["email"] = usuario["email"].lower()
+        limpos.append(usuario)
+    
+    return limpos
 
-for usuario in usuarios:
-    usuario = usuario["nome"].upper()
-    limpos.append(usuario)
+resultado = limpar_dados(usuarios)
 
-for usuario in usuarios:
-    usuario = usuario["email"].lower()
-   
-for usuario in usuarios:
-    print(f"{usuario["nome"]} | {usuario['email']}")
+for usuario in resultado:
+    print(f"{usuario['nome']} | {usuario['email']}")
