@@ -20,7 +20,9 @@ print(df.loc[0:10, ["Name", "Age"]])
 print(" ")
 print(df.iloc[14:15, 0:11])
 
-print("-------Desafio 3-------")
+print("-------Desafio 4-------")
 print(df[df["Age"] >= 60])
-minas_ricas = df[(df[Sex] == "female") &
-            (df["Pclass"] == 1)]
+minas_ricas = df[(df["Sex"] == "female") & (df["Pclass"] == 1)]
+print(minas_ricas)
+print(df[df["Fare"].between(50, 100)])
+print(df.query("Embarked == 'C' and Survived == 1"))
