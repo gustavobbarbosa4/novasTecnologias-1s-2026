@@ -26,10 +26,10 @@ df['anos_empresa'] = (
     (data_atual - df['data_admissao']) / pd.Timedelta(days=365.25)
     ).round(2)
 
-media_departamento = df.groupby(['departamento'])['salario'].transform('mean')
+media_salario_departamento = df.groupby(['departamento'])['salario'].transform('mean')
 
 salarios_abaixo_media = df[
     (df['anos_empresa'] < 5) &
-    (df['salario'] < media_departamento)
+    (df['salario'] < media_salario_departamento)
     ]
 print(salarios_abaixo_media)
