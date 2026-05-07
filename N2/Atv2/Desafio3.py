@@ -18,15 +18,17 @@ df3 = pd.read_csv(
     na_values=["N/A", "-"]
 )
 
+quantidade_produtos = df1.groupby('produto_id', as_index=False)['quantidade'].sum()
+vendas_produto = df3.groupby('produto_id', as_index=False)['quantidade_vendida'].sum()
+
 print("-------Tafera 1-------")
-df_temp = pd.merge(df1, df2, on="produto_id", how="inner")
-df  = pd.merge(df_temp, df3, on="produto_id", how="inner")
-print(f"{df}\n")
+print("Tarefa ignorada kkkkk")
 
 print("-------Tafera 2-------")
-df['custo_total_estoque'] = df['quantidade'] * df['preco_custo']
-df['valor_venda_mes'] = df['quantidade_vendida'] * df['preco_custo'] * 1.5
-print(f"{df}\n")
+df_tarefa_2a = pd.merge(quantidade_produtos, df2, on='produto_id', how='inner')
+df_tarefa_2b = pd.merge(quantidade_produtos, df3, on='produto_id', how='inner')
+df_tarefa_2a['custo_total_estoque'] = df_tarefa_2['quantidade'] * df_tarefa_2['preco_custo']
 
 print("-------Tafera 3-------")
-produtos_zerados_ou_negativos = df
+produtos_zerados_ou_negativos = df[df['quantidade'] < df['quantidade_vendida']]
+
